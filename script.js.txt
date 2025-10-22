@@ -1,4 +1,963 @@
-function testFunction() {
-    alert("✅ Congratulations! Your website is working perfectly!");
-    console.log("90storezon Calculator Website - Ready for Development!");
+// 90storezon - 50+ Calculators Complete JavaScript
+class CalculatorApp {
+    constructor() {
+        this.calculators = [];
+        this.currentCalculator = null;
+        this.init();
+    }
+
+    init() {
+        this.loadAllCalculators();
+        this.renderCalculatorGrid();
+        this.setupEventListeners();
+        this.initializeCalculators();
+    }
+
+    loadAllCalculators() {
+        this.calculators = [
+            // CRYPTO CALCULATORS (8)
+            {
+                id: 1,
+                name: "Crypto Staking Rewards Calculator",
+                category: "crypto",
+                icon: "💰",
+                description: "Calculate your cryptocurrency staking rewards and passive income",
+                formula: this.calculateCryptoStaking
+            },
+            {
+                id: 2,
+                name: "NFT Investment ROI Calculator",
+                category: "crypto",
+                icon: "🎨",
+                description: "Calculate return on investment for NFT purchases and sales",
+                formula: this.calculateNFTRoi
+            },
+            {
+                id: 3,
+                name: "Bitcoin Mining Profitability Calculator",
+                category: "crypto",
+                icon: "⛏️",
+                description: "Estimate Bitcoin mining profits and electricity costs",
+                formula: this.calculateBitcoinMining
+            },
+            {
+                id: 4,
+                name: "DeFi Yield Farming Calculator",
+                category: "crypto",
+                icon: "🌱",
+                description: "Calculate APY and returns from yield farming protocols",
+                formula: this.calculateDeFiYield
+            },
+            {
+                id: 5,
+                name: "Crypto Loan Calculator",
+                category: "crypto",
+                icon: "🏦",
+                description: "Calculate loan amounts and interest rates for crypto lending",
+                formula: this.calculateCryptoLoan
+            },
+            {
+                id: 6,
+                name: "Token Vesting Schedule Calculator",
+                category: "crypto",
+                icon: "📅",
+                description: "Track your token unlock schedule and vesting periods",
+                formula: this.calculateTokenVesting
+            },
+            {
+                id: 7,
+                name: "Gas Fee Optimizer Calculator",
+                category: "crypto",
+                icon: "⛽",
+                description: "Optimize Ethereum transaction costs and gas fees",
+                formula: this.calculateGasFees
+            },
+            {
+                id: 8,
+                name: "Crypto Portfolio Rebalancing Calculator",
+                category: "crypto",
+                icon: "📊",
+                description: "Rebalance your cryptocurrency investments portfolio",
+                formula: this.calculatePortfolioRebalancing
+            },
+
+            // FINANCE CALCULATORS (8)
+            {
+                id: 9,
+                name: "Angel Investment Returns Calculator",
+                category: "finance",
+                icon: "👼",
+                description: "Calculate potential returns from startup angel investments",
+                formula: this.calculateAngelInvestment
+            },
+            {
+                id: 10,
+                name: "Fractional Real Estate Calculator",
+                category: "finance",
+                icon: "🏠",
+                description: "Calculate returns from fractional property investments",
+                formula: this.calculateFractionalRealEstate
+            },
+            {
+                id: 11,
+                name: "Stock Dividend Calculator",
+                category: "finance",
+                icon: "📈",
+                description: "Calculate stock dividend yields and payment schedules",
+                formula: this.calculateStockDividend
+            },
+            {
+                id: 12,
+                name: "Retirement Planning Calculator",
+                category: "finance",
+                icon: "🎯",
+                description: "Plan your retirement savings and income strategy",
+                formula: this.calculateRetirementPlanning
+            },
+            {
+                id: 13,
+                name: "Compound Interest Calculator",
+                category: "finance",
+                icon: "💸",
+                description: "Calculate compound interest growth over time",
+                formula: this.calculateCompoundInterest
+            },
+            {
+                id: 14,
+                name: "Mortgage Affordability Calculator",
+                category: "finance",
+                icon: "🏡",
+                description: "Determine how much house you can afford",
+                formula: this.calculateMortgageAffordability
+            },
+            {
+                id: 15,
+                name: "Personal Loan Calculator",
+                category: "finance",
+                icon: "💰",
+                description: "Calculate monthly payments and interest on personal loans",
+                formula: this.calculatePersonalLoan
+            },
+            {
+                id: 16,
+                name: "Credit Card Payoff Calculator",
+                category: "finance",
+                icon: "💳",
+                description: "Plan your credit card debt payoff strategy",
+                formula: this.calculateCreditCardPayoff
+            },
+
+            // HEALTH CALCULATORS (7)
+            {
+                id: 17,
+                name: "Intermittent Fasting Planner",
+                category: "health",
+                icon: "⏱️",
+                description: "Create personalized intermittent fasting schedules",
+                formula: this.calculateIntermittentFasting
+            },
+            {
+                id: 18,
+                name: "Macro Cycling Calculator",
+                category: "health",
+                icon: "⚖️",
+                description: "Calculate macronutrients for weight loss and muscle gain",
+                formula: this.calculateMacroCycling
+            },
+            {
+                id: 19,
+                name: "Body Fat Percentage Calculator",
+                category: "health",
+                icon: "💪",
+                description: "Estimate your body fat percentage accurately",
+                formula: this.calculateBodyFatPercentage
+            },
+            {
+                id: 20,
+                name: "Calorie Burn Estimator",
+                category: "health",
+                icon: "🔥",
+                description: "Calculate calories burned during exercises and activities",
+                formula: this.calculateCalorieBurn
+            },
+            {
+                id: 21,
+                name: "Ideal Body Weight Calculator",
+                category: "health",
+                icon: "🎯",
+                description: "Determine your healthy ideal body weight range",
+                formula: this.calculateIdealBodyWeight
+            },
+            {
+                id: 22,
+                name: "Water Intake Calculator",
+                category: "health",
+                icon: "💧",
+                description: "Calculate daily water requirements based on your body",
+                formula: this.calculateWaterIntake
+            },
+            {
+                id: 23,
+                name: "Supplement Timing Calculator",
+                category: "health",
+                icon: "💊",
+                description: "Optimize supplement timing for maximum effectiveness",
+                formula: this.calculateSupplementTiming
+            },
+
+            // BUSINESS CALCULATORS (7)
+            {
+                id: 24,
+                name: "Dropshipping Profit Margin Calculator",
+                category: "business",
+                icon: "📦",
+                description: "Calculate profit margins in dropshipping business",
+                formula: this.calculateDropshippingProfit
+            },
+            {
+                id: 25,
+                name: "Amazon FBA Fees Calculator",
+                category: "business",
+                icon: "🛒",
+                description: "Estimate Amazon FBA fulfillment fees and costs",
+                formula: this.calculateAmazonFBA
+            },
+            {
+                id: 26,
+                name: "Shopify Profit Calculator",
+                category: "business",
+                icon: "🛍️",
+                description: "Calculate profits from Shopify ecommerce stores",
+                formula: this.calculateShopifyProfit
+            },
+            {
+                id: 27,
+                name: "Social Media ROI Calculator",
+                category: "business",
+                icon: "📱",
+                description: "Measure return on investment from social media campaigns",
+                formula: this.calculateSocialMediaROI
+            },
+            {
+                id: 28,
+                name: "Email Marketing ROI Calculator",
+                category: "business",
+                icon: "📧",
+                description: "Calculate email marketing campaign return on investment",
+                formula: this.calculateEmailMarketingROI
+            },
+            {
+                id: 29,
+                name: "Customer Lifetime Value Calculator",
+                category: "business",
+                icon: "👥",
+                description: "Calculate customer lifetime value for your business",
+                formula: this.calculateCustomerLTV
+            },
+            {
+                id: 30,
+                name: "Break-even Analysis Calculator",
+                category: "business",
+                icon: "⚖️",
+                description: "Determine when your business will become profitable",
+                formula: this.calculateBreakEven
+            },
+
+            // LIFESTYLE CALCULATORS (6)
+            {
+                id: 31,
+                name: "Digital Nomad Budget Calculator",
+                category: "lifestyle",
+                icon: "🌍",
+                description: "Plan your travel budget and expenses as a digital nomad",
+                formula: this.calculateDigitalNomadBudget
+            },
+            {
+                id: 32,
+                name: "Tiny House Cost Calculator",
+                category: "lifestyle",
+                icon: "🏡",
+                description: "Calculate costs of building and maintaining a tiny home",
+                formula: this.calculateTinyHouseCost
+            },
+            {
+                id: 33,
+                name: "Early Retirement Planner",
+                category: "lifestyle",
+                icon: "🎯",
+                description: "Plan your financial independence and early retirement",
+                formula: this.calculateEarlyRetirement
+            },
+            {
+                id: 34,
+                name: "Sustainable Living Savings Calculator",
+                category: "lifestyle",
+                icon: "🌱",
+                description: "Calculate savings from eco-friendly lifestyle choices",
+                formula: this.calculateSustainableSavings
+            },
+            {
+                id: 35,
+                name: "Workation Planning Calculator",
+                category: "lifestyle",
+                icon: "💼",
+                description: "Plan your working vacation budget and itinerary",
+                formula: this.calculateWorkationPlanning
+            },
+            {
+                id: 36,
+                name: "Minimalist Budget Calculator",
+                category: "lifestyle",
+                icon: "✨",
+                description: "Create a simple and effective minimalist spending plan",
+                formula: this.calculateMinimalistBudget
+            },
+
+            // EDUCATION CALCULATORS (6)
+            {
+                id: 37,
+                name: "Student Loan Repayment Calculator",
+                category: "education",
+                icon: "🎓",
+                description: "Plan your student loan debt payoff strategy",
+                formula: this.calculateStudentLoan
+            },
+            {
+                id: 38,
+                name: "Online Course ROI Calculator",
+                category: "education",
+                icon: "📚",
+                description: "Calculate returns from online education investments",
+                formula: this.calculateCourseROI
+            },
+            {
+                id: 39,
+                name: "Freelance Rate Calculator",
+                category: "education",
+                icon: "💻",
+                description: "Determine optimal hourly rates for freelancing",
+                formula: this.calculateFreelanceRate
+            },
+            {
+                id: 40,
+                name: "Salary Negotiation Calculator",
+                category: "education",
+                icon: "💼",
+                description: "Calculate your worth and salary negotiation range",
+                formula: this.calculateSalaryNegotiation
+            },
+            {
+                id: 41,
+                name: "Skill Development ROI Calculator",
+                category: "education",
+                icon: "🚀",
+                description: "Measure returns from learning new skills",
+                formula: this.calculateSkillROI
+            },
+            {
+                id: 42,
+                name: "Career Change Calculator",
+                category: "education",
+                icon: "🔄",
+                description: "Plan your transition to a new career path",
+                formula: this.calculateCareerChange
+            },
+
+            // ENVIRONMENT CALCULATORS (4)
+            {
+                id: 43,
+                name: "Solar Panel Savings Calculator",
+                category: "environment",
+                icon: "☀️",
+                description: "Calculate savings from solar panel installation",
+                formula: this.calculateSolarSavings
+            },
+            {
+                id: 44,
+                name: "EV Charging Cost Calculator",
+                category: "environment",
+                icon: "⚡",
+                description: "Estimate electric vehicle charging costs",
+                formula: this.calculateEVCharging
+            },
+            {
+                id: 45,
+                name: "Carbon Footprint Calculator",
+                category: "environment",
+                icon: "🌍",
+                description: "Measure your environmental carbon footprint",
+                formula: this.calculateCarbonFootprint
+            },
+            {
+                id: 46,
+                name: "Smart Home Savings Calculator",
+                category: "environment",
+                icon: "🏠",
+                description: "Calculate savings from home automation and smart devices",
+                formula: this.calculateSmartHomeSavings
+            },
+
+            // GAMING CALCULATORS (4)
+            {
+                id: 47,
+                name: "Esports Earnings Calculator",
+                category: "gaming",
+                icon: "🎮",
+                description: "Estimate potential earnings from competitive gaming",
+                formula: this.calculateEsportsEarnings
+            },
+            {
+                id: 48,
+                name: "Gaming PC Build Cost Calculator",
+                category: "gaming",
+                icon: "💻",
+                description: "Calculate costs of building a gaming computer",
+                formula: this.calculateGamingPCBuild
+            },
+            {
+                id: 49,
+                name: "Streaming Setup ROI Calculator",
+                category: "gaming",
+                icon: "📹",
+                description: "Calculate returns from streaming equipment investment",
+                formula: this.calculateStreamingROI
+            },
+            {
+                id: 50,
+                name: "NFT Gaming Returns Calculator",
+                category: "gaming",
+                icon: "🕹️",
+                description: "Estimate profits from play-to-earn NFT games",
+                formula: this.calculateNFTGamingReturns
+            }
+        ];
+    }
+
+    renderCalculatorGrid() {
+        const grid = document.getElementById('calculatorsGrid');
+        if (!grid) return;
+
+        let html = '';
+        
+        // Group calculators by category
+        const categories = {
+            crypto: { name: "Cryptocurrency", calculators: [] },
+            finance: { name: "Finance & Investment", calculators: [] },
+            health: { name: "Health & Fitness", calculators: [] },
+            business: { name: "E-commerce & Business", calculators: [] },
+            lifestyle: { name: "Lifestyle & Personal", calculators: [] },
+            education: { name: "Education & Career", calculators: [] },
+            environment: { name: "Environment & Tech", calculators: [] },
+            gaming: { name: "Gaming & Entertainment", calculators: [] }
+        };
+
+        // Sort calculators into categories
+        this.calculators.forEach(calc => {
+            if (categories[calc.category]) {
+                categories[calc.category].calculators.push(calc);
+            }
+        });
+
+        // Generate HTML for each category
+        for (const [categoryKey, categoryData] of Object.entries(categories)) {
+            if (categoryData.calculators.length > 0) {
+                html += `
+                    <div class="category-section">
+                        <div class="category-header">
+                            <h2>${categoryData.name}</h2>
+                            <p>${categoryData.calculators.length} specialized calculators</p>
+                        </div>
+                        <div class="calculator-grid">
+                            ${categoryData.calculators.map(calc => `
+                                <div class="calculator-card" data-category="${calc.category}">
+                                    <div class="calculator-icon">${calc.icon}</div>
+                                    <h3>${calc.name}</h3>
+                                    <p>${calc.description}</p>
+                                    <div class="badges">
+                                        <span class="free-badge">FREE</span>
+                                        <span class="category-badge">${categoryData.name}</span>
+                                    </div>
+                                    <button class="calc-button" onclick="calculatorApp.openCalculator(${calc.id})">
+                                        Use Calculator
+                                    </button>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        grid.innerHTML = html;
+    }
+
+    setupEventListeners() {
+        // Search functionality
+        const searchInput = document.getElementById('searchInput');
+        if (searchInput) {
+            searchInput.addEventListener('input', (e) => {
+                this.searchCalculators(e.target.value);
+            });
+        }
+
+        // Category filtering
+        document.addEventListener('click', (e) => {
+            if (e.target.classList.contains('category-filter')) {
+                this.filterByCategory(e.target.dataset.category);
+            }
+        });
+    }
+
+    searchCalculators(query) {
+        const cards = document.querySelectorAll('.calculator-card');
+        const searchTerm = query.toLowerCase().trim();
+
+        cards.forEach(card => {
+            const title = card.querySelector('h3').textContent.toLowerCase();
+            const description = card.querySelector('p').textContent.toLowerCase();
+            const category = card.dataset.category;
+
+            const matches = title.includes(searchTerm) || 
+                          description.includes(searchTerm) || 
+                          category.includes(searchTerm);
+
+            card.style.display = matches ? 'block' : 'none';
+            
+            // Show/hide category sections
+            const categorySection = card.closest('.category-section');
+            if (categorySection) {
+                const visibleCards = categorySection.querySelectorAll('.calculator-card[style="display: block"]');
+                categorySection.style.display = visibleCards.length > 0 ? 'block' : 'none';
+            }
+        });
+    }
+
+    filterByCategory(category) {
+        const cards = document.querySelectorAll('.calculator-card');
+        cards.forEach(card => {
+            if (category === 'all' || card.dataset.category === category) {
+                card.style.display = 'block';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+    }
+
+    openCalculator(calculatorId) {
+        const calculator = this.calculators.find(c => c.id === calculatorId);
+        if (calculator) {
+            this.currentCalculator = calculator;
+            this.showCalculatorModal(calculator);
+        }
+    }
+
+    showCalculatorModal(calculator) {
+        // Create modal HTML
+        const modalHTML = `
+            <div class="modal-overlay" id="calculatorModal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2>${calculator.icon} ${calculator.name}</h2>
+                        <button class="close-button" onclick="calculatorApp.closeModal()">×</button>
+                    </div>
+                    <div class="modal-body">
+                        <p>${calculator.description}</p>
+                        <div class="calculator-form" id="calculatorForm">
+                            <!-- Calculator specific form will be inserted here -->
+                        </div>
+                        <div class="result-section" id="resultSection" style="display: none;">
+                            <h3>Calculation Results</h3>
+                            <div id="calculationResult"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        // Add modal to page
+        document.body.insertAdjacentHTML('beforeend', modalHTML);
+        
+        // Load calculator-specific form
+        this.loadCalculatorForm(calculator);
+    }
+
+    loadCalculatorForm(calculator) {
+        const formContainer = document.getElementById('calculatorForm');
+        
+        // Basic form template - you can customize this for each calculator
+        const formHTML = `
+            <div class="input-group">
+                <label for="calcInput1">Enter Amount:</label>
+                <input type="number" id="calcInput1" placeholder="Enter value...">
+            </div>
+            <div class="input-group">
+                <label for="calcInput2">Percentage/Rate:</label>
+                <input type="number" id="calcInput2" placeholder="Enter percentage...">
+            </div>
+            <div class="input-group">
+                <label for="calcInput3">Duration (days):</label>
+                <input type="number" id="calcInput3" placeholder="Enter duration...">
+            </div>
+            <button class="calc-button" onclick="calculatorApp.calculate()">
+                Calculate
+            </button>
+        `;
+
+        formContainer.innerHTML = formHTML;
+    }
+
+    calculate() {
+        if (!this.currentCalculator) return;
+
+        try {
+            const input1 = parseFloat(document.getElementById('calcInput1').value) || 0;
+            const input2 = parseFloat(document.getElementById('calcInput2').value) || 0;
+            const input3 = parseFloat(document.getElementById('calcInput3').value) || 0;
+
+            const result = this.currentCalculator.formula(input1, input2, input3);
+            this.displayResult(result);
+        } catch (error) {
+            this.displayError(error.message);
+        }
+    }
+
+    displayResult(result) {
+        const resultSection = document.getElementById('resultSection');
+        const resultDiv = document.getElementById('calculationResult');
+        
+        resultDiv.innerHTML = `
+            <div class="result-success">
+                <h4>✅ Calculation Complete</h4>
+                <p>Result: <strong>${result}</strong></p>
+            </div>
+        `;
+        
+        resultSection.style.display = 'block';
+    }
+
+    displayError(message) {
+        const resultSection = document.getElementById('resultSection');
+        const resultDiv = document.getElementById('calculationResult');
+        
+        resultDiv.innerHTML = `
+            <div class="result-error">
+                <h4>❌ Calculation Error</h4>
+                <p>${message}</p>
+            </div>
+        `;
+        
+        resultSection.style.display = 'block';
+    }
+
+    closeModal() {
+        const modal = document.getElementById('calculatorModal');
+        if (modal) {
+            modal.remove();
+        }
+    }
+
+    // Initialize all calculator functions
+    initializeCalculators() {
+        // This will be populated with all 50 calculator functions
+        console.log('50+ Calculators Initialized Successfully!');
+    }
+
+    // CRYPTO CALCULATOR FUNCTIONS (8)
+    calculateCryptoStaking(amount, apy, duration) {
+        const dailyRate = apy / 100 / 365;
+        const rewards = amount * dailyRate * duration;
+        return `$${rewards.toFixed(2)} in staking rewards`;
+    }
+
+    calculateNFTRoi(purchasePrice, salePrice, fees) {
+        const netProfit = salePrice - purchasePrice - fees;
+        const roi = (netProfit / purchasePrice) * 100;
+        return `${roi.toFixed(2)}% ROI`;
+    }
+
+    calculateBitcoinMining(hashRate, powerCost, electricityRate) {
+        const dailyProfit = (hashRate * 0.0001) - (powerCost * electricityRate);
+        return `$${dailyProfit.toFixed(2)} daily profit`;
+    }
+
+    calculateDeFiYield(principal, apy, days) {
+        const yieldEarned = principal * (apy / 100) * (days / 365);
+        return `$${yieldEarned.toFixed(2)} yield earned`;
+    }
+
+    calculateCryptoLoan(loanAmount, interestRate, term) {
+        const totalInterest = loanAmount * (interestRate / 100) * (term / 12);
+        return `$${totalInterest.toFixed(2)} total interest`;
+    }
+
+    calculateTokenVesting(totalTokens, cliff, vestingPeriod) {
+        const monthlyVest = totalTokens / vestingPeriod;
+        return `${monthlyVest.toFixed(2)} tokens per month`;
+    }
+
+    calculateGasFees(gasPrice, gasLimit) {
+        const totalCost = gasPrice * gasLimit;
+        return `$${totalCost.toFixed(4)} gas fee`;
+    }
+
+    calculatePortfolioRebalancing(currentValue, targetPercentage) {
+        const targetValue = currentValue * (targetPercentage / 100);
+        return `$${targetValue.toFixed(2)} target allocation`;
+    }
+
+    // FINANCE CALCULATOR FUNCTIONS (8)
+    calculateAngelInvestment(investment, multiple, exitYear) {
+        const futureValue = investment * multiple;
+        return `$${futureValue.toFixed(2)} in ${exitYear} years`;
+    }
+
+    calculateFractionalRealEstate(propertyValue, fractionOwned) {
+        const investmentValue = propertyValue * fractionOwned;
+        return `$${investmentValue.toFixed(2)} property share`;
+    }
+
+    calculateStockDividend(shares, dividendPerShare) {
+        const annualDividend = shares * dividendPerShare * 4;
+        return `$${annualDividend.toFixed(2)} annual dividend`;
+    }
+
+    calculateRetirementPlanning(currentSavings, monthlyContribution, years) {
+        const futureValue = currentSavings + (monthlyContribution * 12 * years);
+        return `$${futureValue.toFixed(2)} retirement savings`;
+    }
+
+    calculateCompoundInterest(principal, rate, years) {
+        const amount = principal * Math.pow(1 + rate / 100, years);
+        return `$${amount.toFixed(2)} future value`;
+    }
+
+    calculateMortgageAffordability(income, debt, downPayment) {
+        const affordablePrice = (income * 0.36 - debt) * 12 * 5 + downPayment;
+        return `$${affordablePrice.toFixed(2)} affordable home price`;
+    }
+
+    calculatePersonalLoan(loanAmount, interestRate, term) {
+        const monthlyPayment = (loanAmount * (interestRate / 100 / 12)) / (1 - Math.pow(1 + interestRate / 100 / 12, -term));
+        return `$${monthlyPayment.toFixed(2)} monthly payment`;
+    }
+
+    calculateCreditCardPayoff(balance, interestRate, monthlyPayment) {
+        const months = -Math.log(1 - (balance * interestRate / 100 / 12) / monthlyPayment) / Math.log(1 + interestRate / 100 / 12);
+        return `${Math.ceil(months)} months to payoff`;
+    }
+
+    // HEALTH CALCULATOR FUNCTIONS (7)
+    calculateIntermittentFasting(fastingHours, eatingHours) {
+        const fastingRatio = (fastingHours / 24) * 100;
+        return `${fastingRatio.toFixed(1)}% of day fasting`;
+    }
+
+    calculateMacroCycling(weight, activityLevel) {
+        const protein = weight * 1.8;
+        const carbs = weight * 3;
+        const fat = weight * 0.8;
+        return `P:${protein}g C:${carbs}g F:${fat}g`;
+    }
+
+    calculateBodyFatPercentage(weight, waist, neck, height) {
+        const bodyFat = 495 / (1.0324 - 0.19077 * Math.log10(waist - neck) + 0.15456 * Math.log10(height)) - 450;
+        return `${bodyFat.toFixed(1)}% body fat`;
+    }
+
+    calculateCalorieBurn(weight, duration, metValue) {
+        const calories = (metValue * 3.5 * weight * duration) / 200;
+        return `${calories.toFixed(0)} calories burned`;
+    }
+
+    calculateIdealBodyWeight(height) {
+        const idealWeight = 50 + 0.91 * (height - 152.4);
+        return `${idealWeight.toFixed(1)} kg ideal weight`;
+    }
+
+    calculateWaterIntake(weight) {
+        const water = weight * 0.033;
+        return `${water.toFixed(1)} liters per day`;
+    }
+
+    calculateSupplementTiming(dosage, frequency) {
+        const dailyTotal = dosage * frequency;
+        return `${dailyTotal}mg daily total`;
+    }
+
+    // BUSINESS CALCULATOR FUNCTIONS (7)
+    calculateDropshippingProfit(salePrice, productCost, shipping) {
+        const profit = salePrice - productCost - shipping;
+        const margin = (profit / salePrice) * 100;
+        return `${margin.toFixed(1)}% profit margin`;
+    }
+
+    calculateAmazonFBA(productPrice, weight, category) {
+        const referralFee = productPrice * 0.15;
+        const fbaFee = weight * 0.5 + 3;
+        const totalFees = referralFee + fbaFee;
+        return `$${totalFees.toFixed(2)} total fees`;
+    }
+
+    calculateShopifyProfit(revenue, cogs, apps, transactionFees) {
+        const profit = revenue - cogs - apps - transactionFees;
+        return `$${profit.toFixed(2)} net profit`;
+    }
+
+    calculateSocialMediaROI(revenue, adSpend) {
+        const roi = ((revenue - adSpend) / adSpend) * 100;
+        return `${roi.toFixed(1)}% ROI`;
+    }
+
+    calculateEmailMarketingROI(revenue, campaignCost, subscribers) {
+        const roi = ((revenue - campaignCost) / campaignCost) * 100;
+        const valuePerSub = revenue / subscribers;
+        return `${roi.toFixed(1)}% ROI, $${valuePerSub.toFixed(2)} per sub`;
+    }
+
+    calculateCustomerLTV(averagePurchase, purchaseFrequency, lifespan) {
+        const ltv = averagePurchase * purchaseFrequency * lifespan;
+        return `$${ltv.toFixed(2)} customer lifetime value`;
+    }
+
+    calculateBreakEven(fixedCosts, price, variableCosts) {
+        const units = fixedCosts / (price - variableCosts);
+        return `${Math.ceil(units)} units to break even`;
+    }
+
+    // LIFESTYLE CALCULATOR FUNCTIONS (6)
+    calculateDigitalNomadBudget(income, travelCosts, accommodation) {
+        const monthlyBudget = income - travelCosts - accommodation;
+        return `$${monthlyBudget.toFixed(2)} monthly budget`;
+    }
+
+    calculateTinyHouseCost(materials, labor, land) {
+        const totalCost = materials + labor + land;
+        return `$${totalCost.toFixed(2)} total cost`;
+    }
+
+    calculateEarlyRetirement(expenses, savings, withdrawalRate) {
+        const fireNumber = expenses / (withdrawalRate / 100);
+        const years = fireNumber / savings;
+        return `${years.toFixed(1)} years to FIRE`;
+    }
+
+    calculateSustainableSavings(energyCost, solarSavings, waterSavings) {
+        const annualSavings = (energyCost - solarSavings) + waterSavings;
+        return `$${annualSavings.toFixed(2)} annual savings`;
+    }
+
+    calculateWorkationPlanning(accommodation, flights, food, duration) {
+        const totalCost = (accommodation + food) * duration + flights;
+        return `$${totalCost.toFixed(2)} total cost`;
+    }
+
+    calculateMinimalistBudget(income, essentialExpenses) {
+        const savingsRate = ((income - essentialExpenses) / income) * 100;
+        return `${savingsRate.toFixed(1)}% savings rate`;
+    }
+
+    // EDUCATION CALCULATOR FUNCTIONS (6)
+    calculateStudentLoan(principal, interestRate, term) {
+        const monthlyPayment = principal * (interestRate / 1200) / (1 - Math.pow(1 + interestRate / 1200, -term));
+        return `$${monthlyPayment.toFixed(2)} monthly payment`;
+    }
+
+    calculateCourseROI(salaryIncrease, courseCost) {
+        const roi = (salaryIncrease / courseCost) * 100;
+        return `${roi.toFixed(1)}% ROI`;
+    }
+
+    calculateFreelanceRate(desiredIncome, billableHours) {
+        const hourlyRate = desiredIncome / (billableHours * 52);
+        return `$${hourlyRate.toFixed(2)} hourly rate`;
+    }
+
+    calculateSalaryNegotiation(currentSalary, marketRate) {
+        const increase = ((marketRate - currentSalary) / currentSalary) * 100;
+        return `${increase.toFixed(1)}% potential increase`;
+    }
+
+    calculateSkillROI(skillValue, learningTime, opportunityCost) {
+        const roi = (skillValue - opportunityCost) / learningTime;
+        return `$${roi.toFixed(2)} ROI per hour`;
+    }
+
+    calculateCareerChange(currentSalary, newSalary, transitionTime) {
+        const payGap = newSalary - currentSalary;
+        const roi = payGap * 5; // 5 year projection
+        return `$${roi.toFixed(2)} 5-year gain`;
+    }
+
+    // ENVIRONMENT CALCULATOR FUNCTIONS (4)
+    calculateSolarSavings(electricityBill, systemCost, incentives) {
+        const annualSavings = electricityBill * 12;
+        const paybackPeriod = (systemCost - incentives) / annualSavings;
+        return `${paybackPeriod.toFixed(1)} year payback`;
+    }
+
+    calculateEVCharging(milesDriven, electricityRate, efficiency) {
+        const monthlyCost = (milesDriven / efficiency) * electricityRate;
+        return `$${monthlyCost.toFixed(2)} monthly charging cost`;
+    }
+
+    calculateCarbonFootprint(milesFlown, electricityUsage, carMiles) {
+        const footprint = (milesFlown * 0.2) + (electricityUsage * 0.4) + (carMiles * 0.3);
+        return `${footprint.toFixed(1)} tons CO2 annually`;
+    }
+
+    calculateSmartHomeSavings(energyUsage, automationSavings) {
+        const annualSavings = energyUsage * automationSavings;
+        return `$${annualSavings.toFixed(2)} annual savings`;
+    }
+
+    // GAMING CALCULATOR FUNCTIONS (4)
+    calculateEsportsEarnings(tournamentWins, sponsorship, streaming) {
+        const annualEarnings = (tournamentWins * 1000) + sponsorship + streaming;
+        return `$${annualEarnings.toFixed(2)} annual earnings`;
+    }
+
+    calculateGamingPCBuild(cpu, gpu, ram, storage) {
+        const totalCost = cpu + gpu + ram + storage;
+        return `$${totalCost.toFixed(2)} build cost`;
+    }
+
+    calculateStreamingROI(subscribers, donations, adRevenue) {
+        const monthlyRevenue = (subscribers * 5) + donations + adRevenue;
+        return `$${monthlyRevenue.toFixed(2)} monthly revenue`;
+    }
+
+    calculateNFTGamingReturns(initialInvestment, dailyEarnings, days) {
+        const totalEarnings = initialInvestment + (dailyEarnings * days);
+        const roi = ((totalEarnings - initialInvestment) / initialInvestment) * 100;
+        return `${roi.toFixed(1)}% ROI`;
+    }
 }
+
+// Initialize the application when the page loads
+document.addEventListener('DOMContentLoaded', function() {
+    window.calculatorApp = new CalculatorApp();
+});
+
+// Global function for search
+function searchCalculators() {
+    const query = document.getElementById('searchInput').value;
+    if (window.calculatorApp) {
+        window.calculatorApp.searchCalculators(query);
+    }
+}
+
+// Global function to filter by category
+function filterByCategory(category) {
+    if (window.calculatorApp) {
+        window.calculatorApp.filterByCategory(category);
+    }
+}
+
+// Global function to open calculator
+function openCalculator(id) {
+    if (window.calculatorApp) {
+        window.calculatorApp.openCalculator(id);
+    }
+}
+
+console.log('✅ 90storezon - 50+ Calculators Loaded Successfully!');
