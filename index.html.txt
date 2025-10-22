@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>90storezon - Free Calculators</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 90storezon Calculators</h1>
+        <p>50+ Free Calculators Coming Soon!</p>
+        <button onclick="testFunction()">Click to Test</button>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

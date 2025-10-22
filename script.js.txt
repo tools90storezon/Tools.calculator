@@ -1,0 +1,4 @@
+function testFunction() {
+    alert("✅ Congratulations! Your website is working perfectly!");
+    console.log("90storezon Calculator Website - Ready for Development!");
+}
